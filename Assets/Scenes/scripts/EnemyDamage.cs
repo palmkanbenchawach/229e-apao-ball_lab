@@ -4,11 +4,11 @@ public class EnemyDamage : MonoBehaviour
 {
     public int damage = 1;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collision other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+            PlayerHealth player = other.gameObject.GetComponent<PlayerHealth>();
             if (player != null)
             {
                 player.TakeDamage(damage);

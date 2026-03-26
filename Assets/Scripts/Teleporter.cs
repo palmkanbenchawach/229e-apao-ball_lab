@@ -1,9 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
-public class Teleporter : MonoBehaviour
+public class TeleportDamage : MonoBehaviour
 {
-    public Transform target; // where to teleport
+    public Transform target;
     public float cooldown = 0.5f;
+    public int damage = 1;
 
     private bool canTeleport = true;
 
@@ -13,23 +15,30 @@ public class Teleporter : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            StartCoroutine(Teleport(other));
+            StartCoroutine(TeleportAndDamage(other));
         }
     }
 
-    System.Collections.IEnumerator Teleport(Collider player)
+    IEnumerator TeleportAndDamage(Collider player)
     {
         canTeleport = false;
 
+        // ?? ทำดาเมจก่อน
+        PlayerHealth hp = player.GetComponent<PlayerHealth>();
+        if (hp != null)
+        {
+            hp.TakeDamage(damage);
+        }
+
         Rigidbody rb = player.GetComponent<Rigidbody>();
 
-        // stop movement before teleport
+        // ?? หยุดการเคลื่อนที่ก่อนวาป
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
         }
 
-        // teleport
+        // ?? วาป
         player.transform.position = target.position;
 
         yield return new WaitForSeconds(cooldown);
