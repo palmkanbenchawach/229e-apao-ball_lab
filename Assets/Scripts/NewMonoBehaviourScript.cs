@@ -16,7 +16,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public void ExitGame()
     {
         Debug.Log("EXIT CLICKED");
-        Application.Quit();
+
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false; // ?? หยุด Play Mode
+#else
+        Application.Quit(); // ?? ออกเกมจริง
+#endif
     }
 
     public void LoadMenu()
@@ -24,4 +29,5 @@ public class NewMonoBehaviourScript : MonoBehaviour
         Debug.Log("CLICK MENU");
         SceneManager.LoadScene("UI_Menu");
     }
+
 }
