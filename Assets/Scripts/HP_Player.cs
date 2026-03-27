@@ -8,13 +8,16 @@ public class PlayerHealth : MonoBehaviour
     public int maxHP = 3;
     public int currentHP;
     public Image[] hearts;
-    public Color fullColor = Color.red;   // สีหัวใจเต็ม
-    public Color emptyColor = Color.gray; // สีหัวใจหมด
+    public Color fullColor = Color.red;
+    public Color emptyColor = Color.gray;
 
     [Header("Game Over UI")]
-    public GameObject gameOverPanel; // Panel Game Over
+    public GameObject gameOverPanel;
 
-    private bool isDead = false;
+    [Header("Victory UI")]
+    public GameObject victoryPanel;
+
+    private bool isDeadOrWon = false;
 
     void Start()
     {
@@ -22,16 +25,19 @@ public class PlayerHealth : MonoBehaviour
         UpdateHearts();
 
         if (gameOverPanel != null)
-            gameOverPanel.SetActive(false); // เริ่มต้นปิด Panel
+            gameOverPanel.SetActive(false);
 
-        // ซ่อนเมาส์ตอนเล่น
+        if (victoryPanel != null)
+            victoryPanel.SetActive(false);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
+    // ลด HP
     public void TakeDamage(int dmg)
     {
-        if (isDead) return;
+        if (isDeadOrWon) return;
 
         currentHP -= dmg;
         if (currentHP <= 0)
@@ -46,20 +52,31 @@ public class PlayerHealth : MonoBehaviour
     void UpdateHearts()
     {
         for (int i = 0; i < hearts.Length; i++)
-        {
             hearts[i].color = (i < currentHP) ? fullColor : emptyColor;
-        }
     }
 
+    // Game Over
     void Die()
     {
-        if (isDead) return;
-        isDead = true;
+        if (isDeadOrWon) return;
+        isDeadOrWon = true;
 
         if (gameOverPanel != null)
-            gameOverPanel.SetActive(true); // เปิด Panel Game Over
+            gameOverPanel.SetActive(true);
 
-        // ปลดล็อกเมาส์และให้เห็น
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    // Victory (ชนกล้วย)
+    public void Win()
+    {
+        if (isDeadOrWon) return;
+        isDeadOrWon = true;
+
+        if (victoryPanel != null)
+            victoryPanel.SetActive(true);
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -72,6 +89,6 @@ public class PlayerHealth : MonoBehaviour
 
     public void ExitGame()
     {
-        SceneManager.LoadScene("UI_Menu"); // ใส่ชื่อซีนเมนูของคุณ
+        SceneManager.LoadScene("UI_Menu");
     }
 }

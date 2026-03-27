@@ -924,11 +924,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 91fab234-d4d5-469c-81ce-c903b71af7b7
+  cloudProjectId: e6feed4d-862c-4356-afb9-8998c45606c3
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ball_lab
-  organizationId: panpalm1
+  projectName: Ball_Lab_UI_Credit
+  organizationId: garin1302
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
